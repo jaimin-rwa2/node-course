@@ -7,9 +7,16 @@
 
 <body>
     <form id="todo-form">
-        <input type="text" id="todo-item" placeholder="enter todo here">
-        <br><br>
-        <input type="submit" value="submit">
+        <% if(update){ %>
+            <input type="text" id="todo-item" placeholder="enter todo here" value="<%= update_data %>">
+            <br><br>
+            <input type="button" value="update" onclick="updateTodo(<%= index %>, true)">
+            <% }else{%>
+                <input type="text" id="todo-item" placeholder="enter todo here">
+                <br><br>
+                <input type="submit" value="submit">
+                <% } %>
+
     </form>
 
     <br><br>
@@ -20,7 +27,7 @@
         <h3>
             <%= data %>
         </h3>
-        <button id="update-<%= index %>">update</button>
+        <button id="update-<%= index %>" onclick="updateTodo(<%= index %>, false)">update</button>
         <button id="delete-<%= index %>" onclick="deleteTodo(<%= index %>)">delete</button>
         <%})%>
 
@@ -53,6 +60,20 @@
                     })();
 
                     location.reload()
+                }
+
+                function updateTodo(data, condition) {
+                    if (condition) {
+
+                    } else {
+                        console.log(data, condition);
+                        (async () => {
+                            await fetch(`http://localhost:8000/${data}`, {
+                                method: 'PUT',
+                            });
+                        })();
+                    }
+
                 }
             </script>
 
